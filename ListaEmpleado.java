@@ -19,12 +19,53 @@ public class ListaEmpleados {
         empleados.add(new Empleado(9, "Luisa", "Mejía", "F", 2160378));
         empleados.add(new Empleado(10, "Cándido", "Mercedes Vargas", "M", 1961114));
 
-        // Ordenar por salario
+        // Ordenar la lista por salario
         Collections.sort(empleados, Comparator.comparingDouble(Empleado::getSalario));
 
-        System.out.println("Lista ordenada por salario:");
+        System.out.println("LISTA ORDENADA POR SALARIO:\n");
         for (Empleado e : empleados) {
             System.out.println(e);
         }
+
+        // ---------------- BÚSQUEDA LINEAL ----------------
+        System.out.println("\nBÚSQUEDA LINEAL:");
+        double salarioBuscado = 2583729;
+
+        Empleado resultadoLineal = busquedaLineal(empleados, salarioBuscado);
+
+        if (resultadoLineal != null) {
+            System.out.println("Empleado encontrado: " + resultadoLineal);
+        } else {
+            System.out.println("Empleado no encontrado.");
+        }
+
+        // ---------------- BÚSQUEDA BINARIA ----------------
+        System.out.println("\nBÚSQUEDA BINARIA:");
+        int indice = busquedaBinaria(empleados, salarioBuscado);
+
+        if (indice >= 0) {
+            System.out.println("Empleado encontrado: " + empleados.get(indice));
+        } else {
+            System.out.println("Empleado no encontrado.");
+        }
+    }
+
+    // Método de búsqueda lineal
+    public static Empleado busquedaLineal(ArrayList<Empleado> lista, double salarioBuscado) {
+        for (Empleado e : lista) {
+            if (e.getSalario() == salarioBuscado) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    // Método de búsqueda binaria (la lista debe estar ordenada)
+    public static int busquedaBinaria(ArrayList<Empleado> lista, double salarioBuscado) {
+        return Collections.binarySearch(
+            lista,
+            new Empleado(0, "", "", "", salarioBuscado),
+            Comparator.comparingDouble(Empleado::getSalario)
+        );
     }
 }
